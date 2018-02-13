@@ -87,6 +87,7 @@ const game = {
     },
 }
 
+game.start();
 
 // Object
 function product (name, imageUrl){
