@@ -15,7 +15,19 @@ const game = {
             new product('Sandal Boots', 'assets/images/boots.jpg'),
             new product('Breakfast Station', 'assets/images/breakfast.jpg'),
             new product('Modern Chair', 'assets/images/chair.jpg'),
-            new product('Cthulhu Figurine', 'assets/images/cthulhu.jpg')
+            new product('Cthulhu Figurine', 'assets/images/cthulhu.jpg'),
+            new product('Ducky Muzzle', 'assets/images/dog-duck.jpg'),
+            new product('Dragon Meat', 'assets/images/dragon.jpg'),
+            new product('Pen Silverware', 'assets/images/pen.jpg'),
+            new product('Pet Sweeps', 'assets/images/pet-sweep.jpg'),
+            new product('Pizza Scissors', 'assets/images/scissors.jpg'),
+            new product('Shark Sleeping Bag', 'assets/images/shark.jpg'),
+            new product('Baby Sweeps', 'assets/images/sweep.png'),
+            new product('Tauntaun Sleeping Bag', 'assets/images/tauntaun.jpg'),
+            new product('Unicorn Meat', 'assets/images/unicorn.jpg'),
+            new product('USB Tentacle', 'assets/images/usb.gif'),
+            new product('Artsy Watering Can', 'assets/images/water-can.jpg'),
+            new product('Modern Wine Glass', 'assets/images/wine-glass.jpg'),
         );
         
         this.getRandomProducts();
@@ -46,7 +58,7 @@ const game = {
             h1.textContent = 'Results:'
             table.appendChild(h1);
 
-            for (let i = 0; game.products.length; i++){
+            for (let i = 0; i < game.products.length; i++){
                 const pLine = document.createElement('p');
                 pLine.textContent = game.products[i].name + ' was clicked ' + game.products[i].selections + ' times!';
                 table.appendChild(pLine);
