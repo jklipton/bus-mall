@@ -14,6 +14,7 @@ const game = {
             new Product('Banana Slicer', 'assets/images/banana.jpg'),
             new Product('TP Tablet Stand', 'assets/images/bathroom.jpg'),
             new Product('Sandal Boots', 'assets/images/boots.jpg'),
+            new Product('Meatball Bubblegum', 'assets/images/bubblegum.jpg'),
             new Product('Breakfast Station', 'assets/images/breakfast.jpg'),
             new Product('Modern Chair', 'assets/images/chair.jpg'),
             new Product('Cthulhu Figurine', 'assets/images/cthulhu.jpg'),
@@ -36,6 +37,17 @@ const game = {
         this.load();
         this.getRandomProducts();
         this.board.addEventListener('click', this.clickHandler);
+    },
+
+    continue: function (){
+        this.clearBoard();
+
+        if (this.picks <= 5){
+            this.getRandomProducts();
+        } else {
+            this.board.removeEventListener('click', this.clickHandler);
+            this.drawResults();
+        }
     },
 
     getRandomProducts: function () {
@@ -63,25 +75,50 @@ const game = {
 
     },
 
-    continue: function (){
-        this.clearBoard();
+    drawResults: function () {
+        document.getElementById('results').setAttribute('style', 'display: block;')
+        //data
+        const names = [];
+        const selections = [];
+        for(let i = 0; i < this.products.length; i++){
+            names.push(this.products[i].name);
+            selections.push(this.products[i].selections);
+        };
 
-        if (this.picks <= 25){
-            this.getRandomProducts();
-        } else {
-            this.board.removeEventListener('click', this.clickHandler);
+        //chart
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
 
-            const table = document.getElementById('table');
-            const h1 = document.createElement('h1');
-            h1.textContent = 'Results:'
-            table.appendChild(h1);
-
-            for (let i = 0; i < this.products.length; i++){
-                const pLine = document.createElement('p');
-                pLine.textContent = this.products[i].name + ' was clicked ' + this.products[i].selections + ' times!';
-                table.appendChild(pLine);
+        const results = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: names,
+                datasets: [{
+                    label: 'number of times chosen',
+                    data: selections,
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Results',
+                    yAxisID: 'Times chosen',
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                        }
+                    }]
+                }
             }
-        }
+        });
     },
 
     clickHandler (){
