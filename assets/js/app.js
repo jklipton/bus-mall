@@ -42,7 +42,7 @@ const game = {
     continue: function (){
         this.clearBoard();
 
-        if (this.picks <= 5){
+        if (this.picks <= 25){
             this.getRandomProducts();
         } else {
             this.board.removeEventListener('click', this.clickHandler);
@@ -76,7 +76,8 @@ const game = {
     },
 
     drawResults: function () {
-        document.getElementById('results').setAttribute('style', 'display: block;')
+        this.board.setAttribute('style', 'border: 0px solid black');
+        document.getElementById('results').setAttribute('style', 'display: block;');
         //data
         const names = [];
         const selections = [];
@@ -89,20 +90,23 @@ const game = {
         const canvas = document.getElementById('chart');
         const ctx = canvas.getContext('2d');
 
-        const results = new Chart(ctx, {
+        const barChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: names,
                 datasets: [{
                     label: 'number of times chosen',
                     data: selections,
+                    backgroundColor: '#000000',
                 }]
             },
             options: {
                 title: {
                     display: true,
                     text: 'Results',
-                    yAxisID: 'Times chosen',
+                },
+                legend: {
+                    display: false,
                 },
                 scales: {
                     xAxes: [{
@@ -111,12 +115,16 @@ const game = {
                         }
                     }],
                     yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Times chosen',
+                        },
                         ticks: {
                             beginAtZero: true,
                             stepSize: 1,
-                        }
+                        },
                     }]
-                }
+                },
             }
         });
     },
