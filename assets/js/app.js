@@ -85,9 +85,11 @@ const game = {
         //data
         const names = [];
         const selections = [];
+        const displays = [];
         for(let i = 0; i < this.products.length; i++){
             names.push(this.products[i].name);
             selections.push(this.products[i].selections);
+            displays.push(this.products[i].displays);
         };
 
         //chart
@@ -95,13 +97,21 @@ const game = {
         const ctx = canvas.getContext('2d');
 
         const barChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
                 labels: names,
                 datasets: [{
-                    label: 'number of times chosen',
+                    label: 'number of times displayed',
+                    data: displays,
+                    backgroundColor: '#8C8C8C',
+                    stack: 'Together',
+                },
+                {
+                    label: 'number of times selected',
                     data: selections,
-                    backgroundColor: '#000000',
+                    backgroundColor: '#ADCDFF',
+                    stack: 'Together',
+
                 }]
             },
             options: {
@@ -110,19 +120,18 @@ const game = {
                     text: 'Results',
                 },
                 legend: {
-                    display: false,
+                    display: true,
+                    position: 'bottom',
                 },
                 scales: {
-                    xAxes: [{
+                    yAxes: [{
+                        stacked: true,
                         ticks: {
                             autoSkip: false,
                         }
                     }],
-                    yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Times chosen',
-                        },
+                    xAxes: [{
+                        stacked: true,
                         ticks: {
                             beginAtZero: true,
                             stepSize: 1,
