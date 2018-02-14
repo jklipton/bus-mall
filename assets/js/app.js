@@ -1,7 +1,5 @@
 'use strict';
 
-// Start
-
 const game = {
     products: [],
     boxes: document.querySelectorAll('.box'),
@@ -9,6 +7,16 @@ const game = {
     picks: 0,
 
     load: function () {
+        const startGame= document.getElementById('startGame')
+        startGame.addEventListener('click', function(){
+            const intro = document.getElementById('intro');
+            intro.setAttribute('style', 'display: none;');
+    
+            game.start();
+        });
+    },
+
+    start: function () {
         this.products.push(
             new Product('R2D2 Bag', 'assets/images/bag.jpg'),
             new Product('Banana Slicer', 'assets/images/banana.jpg'),
@@ -31,10 +39,6 @@ const game = {
             new Product('Artsy Watering Can', 'assets/images/water-can.jpg'),
             new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg'),
         );
-    },
-
-    start: function () {
-        this.load();
         this.getRandomProducts();
         this.board.addEventListener('click', this.clickHandler);
     },
@@ -76,7 +80,7 @@ const game = {
     },
 
     drawResults: function () {
-        this.board.setAttribute('style', 'border: 0px solid black');
+        this.board.setAttribute('style', 'border: none;');
         document.getElementById('results').setAttribute('style', 'display: block;');
         //data
         const names = [];
@@ -149,7 +153,8 @@ const game = {
     },
 }
 
-game.start();
+game.load();
+
 
 // Object
 function Product (name, imageUrl){

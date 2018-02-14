@@ -8,6 +8,14 @@ header{
     margin: auto;
 }
 
+body {
+    padding: 0;
+    background-image: url('assets/images/bus2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
 h1 {
     font-family: 'Monoton', cursive;
     display: block;
@@ -17,12 +25,27 @@ h1 {
     font-weight: normal;
 }
 
-body {
-    padding: 0;
-    background-image: url('assets/images/bus2.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#intro {
+    padding: 20px 50px 0px 50px;
+}
+
+#intro input[type=submit] {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1em;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 10px 15px 10px 15px;
 }
 
 #board {
