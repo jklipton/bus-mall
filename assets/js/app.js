@@ -1,6 +1,6 @@
 'use strict';
 
-const startGame= document.getElementById('startGame')
+const startGame = document.getElementById('startGame');
 startGame.addEventListener('click', function(){
     const intro = document.getElementById('intro');
     intro.setAttribute('style', 'display: none;');
@@ -15,37 +15,28 @@ const game = {
     picks: 0,
 
     load: function () {
-        // if (localStorage.getItem('products')){
-        //     const prodArray = JSON.parse(localStorage.getItem('products'));
-
-        //     for (let i = 0; i < prodArray.length; i++){
-        //         const product = new Product(prodArray[i].name, prodArray[i].imageUrl, prodArray[i].displays, prodArray[i].selections);
-        //         this.products.push(product);
-        //         }            
-        // } else {
-            this.products.push(
-                new Product('R2D2 Bag', 'assets/images/bag.jpg', 0, 0),
-                new Product('Banana Slicer', 'assets/images/banana.jpg', 0, 0),
-                new Product('TP Tablet Stand', 'assets/images/bathroom.jpg', 0, 0),
-                new Product('Sandal Boots', 'assets/images/boots.jpg', 0, 0),
-                new Product('Meatball Bubblegum', 'assets/images/bubblegum.jpg', 0, 0),
-                new Product('Breakfast Station', 'assets/images/breakfast.jpg', 0, 0),
-                new Product('Modern Chair', 'assets/images/chair.jpg', 0, 0),
-                new Product('Cthulhu Figurine', 'assets/images/cthulhu.jpg', 0, 0),
-                new Product('Ducky Muzzle', 'assets/images/dog-duck.jpg', 0, 0),
-                new Product('Dragon Meat', 'assets/images/dragon.jpg', 0, 0),
-                new Product('Pen Silverware', 'assets/images/pen.jpg', 0, 0),
-                new Product('Pet Sweeps', 'assets/images/pet-sweep.jpg', 0, 0),
-                new Product('Pizza Scissors', 'assets/images/scissors.jpg', 0, 0),
-                new Product('Shark Sleeping Bag', 'assets/images/shark.jpg', 0, 0),
-                new Product('Baby Sweeps', 'assets/images/sweep.png', 0, 0),
-                new Product('Tauntaun Sleeping Bag', 'assets/images/tauntaun.jpg', 0, 0),
-                new Product('Unicorn Meat', 'assets/images/unicorn.jpg', 0, 0),
-                new Product('USB Tentacle', 'assets/images/usb.gif', 0, 0),
-                new Product('Artsy Watering Can', 'assets/images/water-can.jpg', 0, 0),
-                new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg', 0, 0),
-            );
-        // }
+        this.products.push(
+            new Product('R2D2 Bag', 'assets/images/bag.jpg', 0, 0),
+            new Product('Banana Slicer', 'assets/images/banana.jpg', 0, 0),
+            new Product('TP Tablet Stand', 'assets/images/bathroom.jpg', 0, 0),
+            new Product('Sandal Boots', 'assets/images/boots.jpg', 0, 0),
+            new Product('Meatball Bubblegum', 'assets/images/bubblegum.jpg', 0, 0),
+            new Product('Breakfast Station', 'assets/images/breakfast.jpg', 0, 0),
+            new Product('Modern Chair', 'assets/images/chair.jpg', 0, 0),
+            new Product('Cthulhu Figurine', 'assets/images/cthulhu.jpg', 0, 0),
+            new Product('Ducky Muzzle', 'assets/images/dog-duck.jpg', 0, 0),
+            new Product('Dragon Meat', 'assets/images/dragon.jpg', 0, 0),
+            new Product('Pen Silverware', 'assets/images/pen.jpg', 0, 0),
+            new Product('Pet Sweeps', 'assets/images/pet-sweep.jpg', 0, 0),
+            new Product('Pizza Scissors', 'assets/images/scissors.jpg', 0, 0),
+            new Product('Shark Sleeping Bag', 'assets/images/shark.jpg', 0, 0),
+            new Product('Baby Sweeps', 'assets/images/sweep.png', 0, 0),
+            new Product('Tauntaun Sleeping Bag', 'assets/images/tauntaun.jpg', 0, 0),
+            new Product('Unicorn Meat', 'assets/images/unicorn.jpg', 0, 0),
+            new Product('USB Tentacle', 'assets/images/usb.gif', 0, 0),
+            new Product('Artsy Watering Can', 'assets/images/water-can.jpg', 0, 0),
+            new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg', 0, 0)
+        );
     },
 
     start: function () {
@@ -96,7 +87,6 @@ const game = {
         //user data
         const names = [];
         const selections = [];
-        const displays = [];
         for(let i = 0; i < this.products.length; i++){
             names.push(this.products[i].name);
             selections.push(this.products[i].selections);
@@ -106,7 +96,7 @@ const game = {
         const canvas = document.getElementById('pieChart');
         const ctx = canvas.getContext('2d');
 
-        const userPie = new Chart(ctx,{
+        const userPie = new Chart(ctx,{ // eslint-disable-line
             type: 'doughnut',
             maintainAspectRatio: false,
             data: {
@@ -134,7 +124,7 @@ const game = {
         });
 
         // persistant results
-        let storedData = []
+        let storedData = [];
         if (localStorage.getItem('products')){
             storedData = JSON.parse(localStorage.getItem('products'));
 
@@ -144,7 +134,7 @@ const game = {
 
                 storedData[i].selections += userSelections;
                 storedData[i].displays += userDisplays;
-                }
+            }
         }
         localStorage.setItem('products', JSON.stringify(storedData));
 
@@ -159,7 +149,7 @@ const game = {
         const canvas2 = document.getElementById('barChart');
         const ctx2 = canvas2.getContext('2d');
 
-        const barChart = new Chart(ctx2, {
+        const barChart = new Chart(ctx2, { // eslint-disable-line
             type: 'horizontalBar',
             data: {
                 labels: names,
@@ -203,31 +193,31 @@ const game = {
     },
 
     clickHandler (){
-            const choice = event.target.title;
+        const choice = event.target.title;
 
-            if (choice === '') return;
-            for (let i = 0; i < game.products.length; i++){
-                if (game.products[i].name === choice){
-                    game.products[i].selections++;
-                    game.picks++;
-                    game.continue();
-                }
+        if (choice === '') return;
+        for (let i = 0; i < game.products.length; i++){
+            if (game.products[i].name === choice){
+                game.products[i].selections++;
+                game.picks++;
+                game.continue();
             }
+        }
     },
 
     clearBoard: function (){
         for (let i = 0; i < this.boxes.length; i++){
-            this.boxes[i].textContent = '';    
+            this.boxes[i].textContent = '';
         }
     },
-}
+};
 
 game.load();
 
 
 // Object
 function Product (name, imageUrl, displays, selections){
-    this.name= name;
+    this.name = name;
     this.imageUrl = imageUrl;
 
     this.displays = displays;
