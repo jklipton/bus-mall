@@ -5,13 +5,14 @@ startGame.addEventListener('click', function(){
     const intro = document.getElementById('intro');
     intro.setAttribute('style', 'display: none;');
 
-    game.start();
+    game.load();
 });
 
 const game = {
     products: [],
     boxes: document.querySelectorAll('.box'),
     board: document.getElementById('board'),
+    results: document.getElementById('results'),
     picks: 0,
 
     load: function () {
@@ -37,6 +38,7 @@ const game = {
             new Product('Artsy Watering Can', 'assets/images/water-can.jpg', 0, 0),
             new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg', 0, 0)
         );
+        game.start();
     },
 
     start: function () {
@@ -51,7 +53,10 @@ const game = {
             this.getRandomProducts();
         } else {
             this.board.removeEventListener('click', this.clickHandler);
-            this.drawResults();
+            this.board.setAttribute('style', 'display: none;');
+            this.results.setAttribute('style', 'display: flex;');
+
+            this.end();
         }
     },
 
@@ -80,30 +85,53 @@ const game = {
 
     },
 
-    drawResults: function () {
-        this.board.setAttribute('style', 'border: none;');
-        document.getElementById('results').setAttribute('style', 'display: flex;');
+    end: function(){
+        this.splitData();
+        this.drawPie();
+        this.checkData();
+        this.drawBar();
+    },
 
-        //user data
-        const names = [];
-        const selections = [];
+    arrayNames: [],
+    arraySelections: [],
+    arrayDisplays: [],
+
+    splitData: function (){
         for(let i = 0; i < this.products.length; i++){
-            names.push(this.products[i].name);
-            selections.push(this.products[i].selections);
+            this.arrayNames.push(this.products[i].name);
+            this.arraySelections.push(this.products[i].selections);
+            this.arrayDisplays.push(this.products[i].selections);
         };
+    },
 
-        //user results
-        const canvas = document.getElementById('pieChart');
-        const ctx = canvas.getContext('2d');
+    checkData: function() {
+        if (localStorage.getItem('stored')){
+            const stored = JSON.parse(localStorage.getItem('stored'));
 
-        const userPie = new Chart(ctx,{ // eslint-disable-line
+            console.log(this.arraySelections);
+            for (let i = 0; i < stored.length; i++){
+                this.arraySelections[i] += stored[i].selections;
+                this.arrayDisplays[i] += stored[i].displays;
+            }
+            console.log(this.arraySelections);
+        } else {
+            let string = JSON.stringify(this.products);
+            localStorage.setItem('stored', string);
+        }
+    },
+
+    drawPie: function(){
+        const pCanvas = document.getElementById('pieChart');
+        const pCtx = pCanvas.getContext('2d');
+
+        const userPie = new Chart(pCtx,{ // eslint-disable-line
             type: 'doughnut',
             maintainAspectRatio: false,
             data: {
-                labels: names,
+                labels: this.arrayNames,
                 datasets: [{
                     label: 'times chosen',
-                    data: selections,
+                    data: this.arraySelections,
                     backgroundColor: [
                         '#E07563','#E17277','#DC738C','#D1789F','#BE7FAF',
                         '#A788BB','#8A90C2','#6A97C2','#499DBC','#26A2B0',
@@ -122,46 +150,25 @@ const game = {
                 },
             },
         });
+    },
 
-        // persistant results
-        let storedData = [];
-        if (localStorage.getItem('products')){
-            storedData = JSON.parse(localStorage.getItem('products'));
+    drawBar: function(){
+        const bCanvas = document.getElementById('barChart');
+        const bCtx = bCanvas.getContext('2d');
 
-            for (let i = 0; i < storedData.length; i++){
-                const userSelections = this.products[i].selections;
-                const userDisplays = this.products[i].displays;
-
-                storedData[i].selections += userSelections;
-                storedData[i].displays += userDisplays;
-            }
-        }
-        localStorage.setItem('products', JSON.stringify(storedData));
-
-        const totalSelects = [];
-        const totalDisplays = [];
-
-        for(let i = 0; i < storedData.length; i++){
-            totalSelects.push(storedData[i].selections);
-            totalDisplays.push(storedData[i].displays);
-        };
-
-        const canvas2 = document.getElementById('barChart');
-        const ctx2 = canvas2.getContext('2d');
-
-        const barChart = new Chart(ctx2, { // eslint-disable-line
+        const barChart = new Chart(bCtx, { // eslint-disable-line
             type: 'horizontalBar',
             data: {
-                labels: names,
+                labels: this.arrayNames,
                 datasets: [{
                     label: 'total times displayed',
-                    data: totalDisplays,
+                    data: this.arrayDisplays,
                     backgroundColor: '#8C8C8C',
                     stack: 'Together',
                 },
                 {
                     label: 'total times selected',
-                    data: totalSelects,
+                    data: this.arraySelections,
                     backgroundColor: '#ADCDFF',
                     stack: 'Together',
 
@@ -180,6 +187,9 @@ const game = {
                 scales: {
                     yAxes: [{
                         stacked: true,
+                        ticks: {
+                            fontColor: '#000000',
+                        },
                     }],
                     xAxes: [{
                         stacked: true,
@@ -211,15 +221,3 @@ const game = {
         }
     },
 };
-
-game.load();
-
-
-// Object
-function Product (name, imageUrl, displays, selections){
-    this.name = name;
-    this.imageUrl = imageUrl;
-
-    this.displays = displays;
-    this.selections = selections;
-}
