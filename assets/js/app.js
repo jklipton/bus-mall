@@ -10,10 +10,12 @@ startGame.addEventListener('click', function(){
 
 const game = {
     products: [],
-    boxes: document.querySelectorAll('.box'),
     board: document.getElementById('board'),
     results: document.getElementById('results'),
-    picks: 0,
+
+    images: 5,
+    startPicks: 0,
+    endPicks: 25,
 
     load: function () {
         this.products.push(
@@ -49,7 +51,7 @@ const game = {
     continue: function (){
         this.clearBoard();
 
-        if (this.picks <= 25){
+        if (this.startPicks <= this.endPicks){
             this.getRandomProducts();
         } else {
             this.board.removeEventListener('click', this.clickHandler);
@@ -63,7 +65,7 @@ const game = {
     getRandomProducts: function () {
         const shownProducts = [];
 
-        while (shownProducts.length <= 2){
+        while (shownProducts.length < this.images){
             const random = Math.floor(Math.random() * this.products.length);
             const option = this.products[random];
 
@@ -73,16 +75,18 @@ const game = {
             };
         };
 
-        for (let i = 0; i < 3; i++){
+        for (let i = 0; i < this.images; i++){
+            const box = document.createElement('div');
+            box.setAttribute('class', 'box');
+
             const img = document.createElement('div');
             img.setAttribute('title', shownProducts[i].name);
             img.setAttribute('style', `background-image: url(${shownProducts[i].imageUrl})`);
             img.setAttribute('class', 'click');
 
-            this.boxes[i].appendChild(img);
+            box.appendChild(img);
+            this.board.appendChild(box);
         }
-        console.table(shownProducts);
-
     },
 
     end: function(){
@@ -209,7 +213,7 @@ const game = {
         for (let i = 0; i < game.products.length; i++){
             if (game.products[i].name === choice){
                 game.products[i].selections++;
-                game.picks++;
+                game.startPicks++;
                 game.continue();
             }
         }
