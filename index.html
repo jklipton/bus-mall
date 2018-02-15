@@ -16,7 +16,6 @@
                 <h2>HEY THERE, BUS TRAVELER!</h2>
                 <p> This is a survey for the start-up BusMall, the revolutionary new way to shop!</p>
                 <p> To participate, please begin the survey and choose the product you are most likely to buy.</p>
-                <p> You will be offered 25 choices, and see all your picks at the end!</p>
                 <input type="submit" id="startGame" value="START!">	
             </div>
             <div class="box"></div>
@@ -26,7 +25,7 @@
 
         <section id="results">
             <div id="left" class="canvasCont">
-                <canvas id="pieChart"></canvas>
+                <canvas id="pieChart" height="150px" width="120px"></canvas>
             </div>
             <section id="extro">
                 <h2>Your Results!</h2>
@@ -37,10 +36,11 @@
                 </p>
             </section>
             <div id="bottom" class="canvasCont">
-                <canvas id="barChart"></canvas>
+                <canvas id="barChart" height="500px" width="700px"></canvas>
             </div>
         </section>
 
+        <script src="assets/js/product.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="assets/js/Chart.js"></script>
     </body>
