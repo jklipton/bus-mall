@@ -25,7 +25,20 @@
         </section>
 
         <section id="results">
-            <canvas id="chart" height="500" width="700"></canvas>
+            <div id="left" class="canvasCont">
+                <canvas id="pieChart"></canvas>
+            </div>
+            <section id="extro">
+                <h2>Your Results!</h2>
+                <p>The pie-chart on the left will show you your selections 
+                    this round (mouseover to see the item for each slice!).
+                </p><p>
+                    The chart below displays the choices of all of our users.
+                </p>
+            </section>
+            <div id="bottom" class="canvasCont">
+                <canvas id="barChart"></canvas>
+            </div>
         </section>
 
         <script src="assets/js/app.js"></script>
