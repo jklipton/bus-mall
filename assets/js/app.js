@@ -44,7 +44,7 @@ const game = {
         if (localStorage.getItem('settings')){
             const settings = JSON.parse(localStorage.getItem('settings'));
             this.images = parseInt(settings.setImages);
-            this.endTurns = parseInt(settings.setTurns)    
+            this.endTurns = parseInt(settings.setTurns);
         };
 
         game.start();
@@ -129,7 +129,7 @@ const game = {
             }
             console.log(this.arraySelections);
         } else {
-            let string = JSON.stringify(this.products);
+            const string = JSON.stringify(this.products);
             localStorage.setItem('stored', string);
         }
     },
