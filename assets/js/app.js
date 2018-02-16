@@ -13,9 +13,9 @@ const game = {
     board: document.getElementById('board'),
     results: document.getElementById('results'),
 
-    images: 5,
-    startPicks: 0,
-    endPicks: 25,
+    images: 3,
+    startTurns: 0,
+    endTurns: 25,
 
     load: function () {
         this.products.push(
@@ -40,18 +40,28 @@ const game = {
             new Product('Artsy Watering Can', 'assets/images/water-can.jpg', 0, 0),
             new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg', 0, 0)
         );
+
+        if (localStorage.getItem('settings')){
+            const settings = JSON.parse(localStorage.getItem('settings'));
+            this.images = parseInt(settings.setImages);
+            this.endTurns = parseInt(settings.setTurns)    
+        };
+
         game.start();
     },
 
     start: function () {
         this.getRandomProducts();
         this.board.addEventListener('click', this.clickHandler);
+
+        const intro = document.getElementById('intro');
+        intro.remove();
     },
 
     continue: function (){
         this.clearBoard();
 
-        if (this.startPicks <= this.endPicks){
+        if (this.startTurns < this.endTurns){
             this.getRandomProducts();
         } else {
             this.board.removeEventListener('click', this.clickHandler);
@@ -213,15 +223,17 @@ const game = {
         for (let i = 0; i < game.products.length; i++){
             if (game.products[i].name === choice){
                 game.products[i].selections++;
-                game.startPicks++;
+                game.startTurns++;
                 game.continue();
             }
         }
     },
 
     clearBoard: function (){
-        for (let i = 0; i < this.boxes.length; i++){
-            this.boxes[i].textContent = '';
+        const boxes = document.querySelectorAll('.box');
+
+        for (let i = 0; i < boxes.length; i++){
+            boxes[i].remove();
         }
     },
 };
