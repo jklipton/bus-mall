@@ -13,7 +13,7 @@ const game = {
     board: document.getElementById('board'),
     results: document.getElementById('results'),
 
-    images: 5,
+    images: 3,
     startTurns: 0,
     endTurns: 25,
 
@@ -41,10 +41,11 @@ const game = {
             new Product('Modern Wine Glass', 'assets/images/wine-glass.jpg', 0, 0)
         );
 
-        const settings = JSON.parse(localStorage.getItem('settings'));
-        this.images = parseInt(settings.setImages);
-        this.endTurns = parseInt(settings.setTurns);
-        
+        if (localStorage.getItem('settings')){
+            const settings = JSON.parse(localStorage.getItem('settings'));
+            this.images = parseInt(settings.setImages);
+            this.endTurns = parseInt(settings.setTurns)    
+        };
 
         game.start();
     },
